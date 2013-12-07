@@ -57,7 +57,7 @@ class ZNCLogViewerAPI < Sinatra::Base
         u16= line.encode!('UTF-16', :undef => :replace, :invalid => :replace, :replace => "")
         line.encode!("UTF-8")
 
-        matchdata = /\[(?<time>.+)\] \<(?<user>.+)\> (?<message>.+)/.match(line)
+        matchdata = /\[(?<time>.+)\] \<(?<user>[^>]+)\> (?<message>.+)/.match(line)
         p matchdata
         if matchdata
           {
