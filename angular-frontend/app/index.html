@@ -16,7 +16,7 @@
         <link rel="stylesheet" href="styles/app.css">
         <!-- endbuild -->
 </head>
-  <body ng-app="angularFrontendApp">
+  <body ng-app="zncLogViewerApp">
     <!--[if lt IE 7]>
       <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
     <![endif]-->
@@ -30,7 +30,7 @@
     <nav class="top-bar" data-top-bar>
       <ul class="title-area">
         <li class="name">
-          <h1><a href="#">My Site</a></h1>
+          <h1><a href="#!/">ZNC Logs</a></h1>
         </li>
       </ul>
       
@@ -66,7 +66,8 @@
        ga('send', 'pageview');
     </script>
 
-
+    <script src="bower_components/jquery/jquery.min.js"></script>
+    <script src="bower_components/foundation/js/foundation.min.js"></script>
     <script src="bower_components/angular/angular.js"></script>
 
         <!-- build:js scripts/modules.js -->
@@ -79,6 +80,8 @@
         <!-- build:js({.tmp,app}) scripts/scripts.js -->
         <script src="scripts/app.js"></script>
         <script src="scripts/controllers/main.js"></script>
+        <script src="scripts/controllers/network.js"></script>
+        <script src="scripts/services/users.js"></script>
         <!-- endbuild -->
 </body>
 </html>

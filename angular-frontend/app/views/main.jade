@@ -1,8 +1,9 @@
-h3 ZNC Logs
+h1 Users
 
-h4 Servers
-
-.row(ng-repeat="thing in awesomeThings")
-  .small-8.columns
-    p {{thing}}
-  .small-4.columns.button Fooo
+dl.accordion(data-accordion=true)
+  dd(ng-repeat="user in users")
+    a(ng-click="scrollTo(user.name)") {{user.name}}
+    .content(id="{{user.name}}", ng-class="{active: user.name == active}")
+      ul.small-block-grid-3.large-block-grid-8
+        li(ng-repeat="network in user.networks")
+          a.button(ng-href="#!/users/{{user.name}}/networks/{{network}}") {{network}}
