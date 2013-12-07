@@ -1,2 +1,22 @@
-h3 Network {{network}}
 
+
+section#header
+  .row
+    .small-12.columns
+      .panel
+        a(ng-href="#!/users/{{user}}/networks/{{network}}/")
+          h3 Network {{network}}
+
+
+section#logfiles(ng-if="!log")
+  .row(ng-repeat="file in logs")
+    .small-12.columns
+      a.button(ng-href="#!/users/{{user}}/networks/{{network}}/logs/{{file.name}}") {{file.name}}
+
+section#file(ng-if="log")
+  .row
+    .small-12.columns
+      h4
+        {{log.name}}
+  .row(ng-repeat="line in log.lines")
+    .small-12.columns {{line}}

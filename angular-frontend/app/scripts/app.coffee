@@ -14,8 +14,11 @@ angular.module('zncLogViewerApp', [
       .when '/users/:user/networks/:network',
         templateUrl: '/views/network.html'
         controller: 'NetworkCtrl'
-      .otherwise
-        redirectTo: '/'
+      .when '/users/:user/networks/:network/logs/:file',
+        templateUrl: '/views/network.html'
+        controller: 'NetworkCtrl'
+      # .otherwise
+      #   redirectTo: '/'
     $locationProvider.html5Mode(false).hashPrefix('!')
 
   ]
