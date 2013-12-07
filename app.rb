@@ -50,7 +50,19 @@ class ZNCLogViewerAPI < Sinatra::Base
       f = File.open(File.join(logpath, "##{params[:file]}"))
       {
         name: params[:file],
-        lines: f.readlines
+        lines: f.readlines.map do |line|
+          matchdata = /\[(?<time>.+)\] \<(?<user>.+)\> (?<message>.+)/.match(line)
+          p matchdata
+          if matchdata
+            {
+              time: matchdata[:time],
+              user: matchdata[:user],
+              message: matchdata[:message]
+            }
+          else
+            nil
+          end
+        end.compact
       }.to_json
 
     else

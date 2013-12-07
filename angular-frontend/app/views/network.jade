@@ -19,4 +19,6 @@ section#file(ng-if="log")
       h4
         {{log.name}}
   .row(ng-repeat="line in log.lines")
-    .small-12.columns {{line}}
+    .small-6.large-2.columns.label {{line.time}}
+    .small-6.large-2.columns.label.success {{line.user}}
+    .small-12.large-8.columns {{line.message}}
