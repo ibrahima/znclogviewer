@@ -45,35 +45,30 @@ class ZNCLogViewerAPI < Sinatra::Base
     logpath = File.expand_path("~/.znc/users/#{params[:user]}/networks/#{params[:network]}/moddata/log/")
     if File.exists?(File.join(logpath, params[:file]))
       f = File.open(File.join(logpath, params[:file]), "r:UTF-8")
-      {
-        name: params[:file],
-        lines: f.readlines.map do |line|
-          matchdata = /\[(?<time>.+)\] \<(?<user>.+)\> (?<message>.+)/.match(line)
-          p matchdata
-          if matchdata
-            {
-              time: matchdata[:time],
-              user: matchdata[:user],
-              message: matchdata[:message]
-            }
-          else
-            nil
-          end
-        end.compact
-      }.to_json
     elsif File.exists?(File.join(logpath, "##{params[:file]}"))
       f = File.open(File.join(logpath, "##{params[:file]}"), "r:UTF-8")
-      {
-        name: params[:file],
-        lines: f.readlines.map do |l|
-          u16= l.encode!('UTF-16', :undef => :replace, :invalid => :replace, :replace => "")
-          l.encode!("UTF-8") 
-        end
-      }.to_json
-
     else
       status 404
       return { status: 404 }.to_json
     end
+    {
+      name: params[:file],
+      lines: f.readlines.map do |line|
+        u16= line.encode!('UTF-16', :undef => :replace, :invalid => :replace, :replace => "")
+        line.encode!("UTF-8")
+
+        matchdata = /\[(?<time>.+)\] \<(?<user>.+)\> (?<message>.+)/.match(line)
+        p matchdata
+        if matchdata
+          {
+            time: matchdata[:time],
+            user: matchdata[:user],
+            message: matchdata[:message]
+          }
+        else
+          nil
+        end
+      end.compact
+    }.to_json
   end
 end
