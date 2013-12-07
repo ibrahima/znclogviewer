@@ -44,13 +44,19 @@ class ZNCLogViewerAPI < Sinatra::Base
   get '/users/:user/networks/:network/logs/:file?' do
     logpath = File.expand_path("~/.znc/users/#{params[:user]}/networks/#{params[:network]}/moddata/log/")
     if File.exists?(File.join(logpath, params[:file]))
-      f = File.open(File.join(logpath, params[:file]))
-      f.to_json
-    elsif File.exists?(File.join(logpath, "##{params[:file]}"))
-      f = File.open(File.join(logpath, "##{params[:file]}"))
+      f = File.open(File.join(logpath, params[:file]), "r:UTF-8")
       {
         name: params[:file],
         lines: f.readlines
+      }.to_json
+    elsif File.exists?(File.join(logpath, "##{params[:file]}"))
+      f = File.open(File.join(logpath, "##{params[:file]}"), "r:UTF-8")
+      {
+        name: params[:file],
+        lines: f.readlines.map do |l|
+          u16= l.encode!('UTF-16', :undef => :replace, :invalid => :replace, :replace => "")
+          l.encode!("UTF-8") 
+        end
       }.to_json
 
     else
