@@ -49,13 +49,19 @@ module.exports = function (grunt) {
         files: [
           '<%= yeoman.app %>/{,*/}*.html',
           '.tmp/styles/{,*/}*.css',
+          '.tmp/scripts/{,*/}*.js',
+          '.tmp/views/{,*/}*.html',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
       },
       sass: {
         files: 'scss/**/*.scss',
         tasks: ['sass']
-      }
+      },
+      jade: {
+        files: ['<%= yeoman.app %>/{,*/}*.jade', '<%= yeoman.app %>/views/{,*/}*.jade'],
+        tasks: ['jade:server']
+      },
     },
 
     // The actual grunt server settings
@@ -174,7 +180,42 @@ module.exports = function (grunt) {
       }
     },
 
-
+    jade: {
+        dist: {
+            options: {
+                pretty: true,
+                data : {
+                    pkg : require('./package.json'),
+                    }
+            },
+            files: [
+                {
+                    expand: true,
+                    cwd: '<%= yeoman.app %>',
+                    dest: '.tmp',
+                    src: '{,*/}*.jade',
+                    ext: '.html'
+                    }
+            ]
+        },
+        server: {
+            options: {
+                pretty: true,
+                data : {
+                    pkg : require('./package.json'),
+                }
+            },
+            files: [
+                {
+                    expand: true,
+                        cwd: '<%= yeoman.app %>',
+                    dest: '.tmp',
+                    src: '{,*/}*.jade',
+                    ext: '.html'
+                }
+            ]
+        }
+    },
     // Renames files for browser caching purposes
     rev: {
       dist: {
@@ -306,7 +347,8 @@ module.exports = function (grunt) {
     concurrent: {
       server: [
         'coffee:dist',
-        'copy:styles'
+        'copy:styles',
+				'jade:server'
       ],
       test: [
         'coffee',
@@ -400,7 +442,8 @@ module.exports = function (grunt) {
     'uglify',
     'rev',
     'usemin',
-    'sass'
+    'sass',
+		'jade:dist'
   ]);
 
   grunt.registerTask('default', [
