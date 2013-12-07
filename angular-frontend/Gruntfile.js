@@ -51,6 +51,10 @@ module.exports = function (grunt) {
           '.tmp/styles/{,*/}*.css',
           '<%= yeoman.app %>/images/{,*/}*.{png,jpg,jpeg,gif,webp,svg}'
         ]
+      },
+      sass: {
+        files: 'scss/**/*.scss',
+        tasks: ['sass']
       }
     },
 
@@ -156,7 +160,20 @@ module.exports = function (grunt) {
       }
     },
 
-    
+    sass: {
+      options: {
+        includePaths: ['app/bower_components/foundation/scss']
+      },
+      dist: {
+        options: {
+          outputStyle: 'compressed'
+        },
+        files: {
+          'app/styles/app.css': 'scss/app.scss'
+        }
+      }
+    },
+
 
     // Renames files for browser caching purposes
     rev: {
@@ -339,6 +356,9 @@ module.exports = function (grunt) {
     }
   });
 
+  grunt.loadNpmTasks('grunt-sass');
+  grunt.loadNpmTasks('grunt-contrib-watch');
+
 
   grunt.registerTask('serve', function (target) {
     if (target === 'dist') {
@@ -379,12 +399,14 @@ module.exports = function (grunt) {
     'cssmin',
     'uglify',
     'rev',
-    'usemin'
+    'usemin',
+    'sass'
   ]);
 
   grunt.registerTask('default', [
     'newer:jshint',
     'test',
-    'build'
+    'build',
+    'watch'
   ]);
 };
